@@ -1,32 +1,30 @@
 config BR2_PACKAGE_AIC8800
 	bool "aic8800"
 	depends on BR2_LINUX_KERNEL
+	select BR2_PACKAGE_USB_MODESWITCH
+	select BR2_PACKAGE_UTIL_LINUX
+	select BR2_PACKAGE_UTIL_LINUX_EJECT
 	help
-	  Out-of-tree AICSemi AIC8800-family Wi-Fi 6 (802.11ax) + Bluetooth
-	  USB driver, plus the firmware blobs it cannot run without.
-	  Two kernel modules (aic_load_fw, aic8800_fdrv) and ~6.6 MiB of
-	  firmware under /lib/firmware/aic8800*/.
+	  Out-of-tree AICSemi AIC8800-family Wi-Fi 6 USB driver, Bluetooth
+	  firmware loader, device-specific ZLP quirk module, udev rules, and
+	  required firmware. Installs all six firmware variant directories
+	  under /lib/firmware/aic8800*/.
 
-	  Covers the commodity cheap-AX dongle market that has no driver at
-	  all in this image today: Tenda U2 (2604:0014), U11 (2604:001f),
-	  U11 Pro (2604:0020), TX1U Nano (3625:0110), the TP-Link/Mercury
-	  pair (2357:014b, 2357:014e) and 41 AICSemi-branded IDs under
-	  a69c: and 368b:.
+	  The udev rules handle AIC USB storage-mode ejects and Pandora
+	  1111:1111 mode switching. usb_modeswitch and its device-specific
+	  configuration are included for the latter.
 
-	  Mainline has NO aic8800 driver over any bus, in any tree checked
-	  (6.18, 7.2, 7.3-rc) -- no chip HAL, no staging entry, no
-	  MAINTAINERS line -- which is the one condition under which
-	  ADR 0016 permits an out-of-tree fork. There are zero USB-ID bind
-	  conflicts against the in-kernel drivers this image builds.
+	  Uses shenmintao/aic8800d80's main branch. It supports devices with
+	  chip_mcu_id=0 or an unknown MCU revision; do not use this package
+	  for chip_mcu_id=1 hardware, which requires the upstream
+	  legacy-mcu1 branch and matching firmware.
 
-	  Sourced from radxa-pkg/aic8800, which packages the SAME AICSemi
-	  SDK snapshot that MiSTer stock vendored into its 6.18 kernel fork
-	  (RELEASE_DATE "2026_0123_5f7be68d"), and unlike stock also ships
-	  the firmware. See package/aic8800/aic8800.mk for the provenance
-	  chain, the vendor-patch policy, and the licence position; see
-	  docs/wifi-parity.md section 10 for the decision record.
+	  The driver has no upstream license grant beyond its module
+	  declarations, and the firmware has no separate license text.
+	  See package/aic8800/aic8800.mk and docs/wifi-parity.md section
+	  10.1 for source and licensing details.
 
-	  https://github.com/radxa-pkg/aic8800
+	  https://github.com/shenmintao/aic8800d80
 
 comment "aic8800 needs a Linux kernel to be built"
 	depends on !BR2_LINUX_KERNEL

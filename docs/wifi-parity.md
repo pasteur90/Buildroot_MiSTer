@@ -1133,6 +1133,19 @@ either. **Re-check trigger:** more than one `-i --grep=aic` hit in the fork, or 
 
 ## 10.1 AIC8800 — decision D2 REVERSED, packaged (2026-09-10)
 
+**Source update (2026-09-30):** `package/aic8800` now tracks commit
+`b72eea956451d6a351292cd6cd46b44b48e65b8d` from
+[`shenmintao/aic8800d80`](https://github.com/shenmintao/aic8800d80), not
+`radxa-pkg/aic8800`. It builds the three upstream modules and installs all six
+firmware directories from `fw/`, along with `aic.rules` and its companion
+`1111:1111` usb_modeswitch configuration. The package selects usb_modeswitch
+and util-linux's eject utility for the rules. It tracks `main` only; hardware that
+reports `chip_mcu_id=1` needs upstream's `legacy-mcu1` branch and is not
+supported by this package. The source repository has no driver license grant
+or firmware license text; the licensing ambiguity remains unresolved. The
+details below describe the original radxa-based implementation and are
+retained as historical decision evidence.
+
 **Owner decision, 2026-09-10: package it, licence ambiguity and all.** The reasoning is
 recorded here because it overrides what §10 above says, and §10 is left standing as the
 analysis that produced the original defer.

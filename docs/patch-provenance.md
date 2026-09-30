@@ -1706,7 +1706,13 @@ its firmware after Wave 3 as `package/aic8800` (driver + all six firmware varian
 `radxa-pkg/aic8800`, the same SDK snapshot stock vendored, built with radxa's kernel-API
 patches); the ledger record is `carried-as-package`, and it is still a Buildroot package, never
 an in-tree patch, exactly as the paragraph below requires. `docs/wifi-parity.md` §10.1 and
-`memo-Q9-aic8800.md` §10 hold the reversal; what follows is the defer analysis as it stood. The driver compiles and modposts clean for 32-bit ARM (the
+`memo-Q9-aic8800.md` §10 hold the reversal; what follows is the defer analysis as it stood.
+**Source update (2026-09-30):** the active package now follows
+`shenmintao/aic8800d80` at a commit pin; this paragraph records the original
+radxa-based decision and is historical. The current package uses upstream's
+`main` branch only, so `chip_mcu_id=1` devices remain unsupported.
+
+The original radxa-based driver compiled and modposted clean for 32-bit ARM (the
 `rtl8852cu`-class `__aeabi_uldivmod` trap does not recur here) and has zero USB-ID bind conflicts
 against anything this repo already carries — but it is inert without roughly 60 firmware blobs
 that stock's own Release 20260907 `firmware.tar.gz` ships **none** of, and the 139-file vendored
